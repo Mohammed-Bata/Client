@@ -1,0 +1,58 @@
+<aside [style.width.px]="currentWidth()">
+    <div class="spaces" style="width:100%">
+        <div class="full" (click)="toggle()">
+            <div class="icons">
+                <svg fill="none" viewBox="-4 -4 24 24" role="presentation" class="icon default">
+                    <path fill="currentcolor" d="M13.809 9.496a5.98 5.98 0 0 1-2.809 3.7 5.98 5.98 0 0 1-4.608.583 29.4 29.4 0 0 0 3.858-1.881 29.4 29.4 0 0 0 3.559-2.402"></path>
+                    <path fill="currentcolor" fill-rule="evenodd" d="M5 2.804a6 6 0 0 1 6.515.333c.859-.264 1.65-.425 2.308-.447.377-.013.751.017 1.083.126.338.11.678.32.888.684.354.613.152 1.297-.107 1.8-.276.538-.736 1.113-1.306 1.688q-.197.196-.413.397a20 20 0 0 1-1.517 1.263 29 29 0 0 1-2.951 1.95 29 29 0 0 1-3.165 1.58c-.65.275-1.272.506-1.85.683h-.003q-.28.087-.548.159c-.783.206-1.511.317-2.116.288-.505-.025-1.114-.162-1.49-.63l-.052-.069-.07-.109-.07-.139a1.6 1.6 0 0 1-.078-.972c.071-.342.231-.681.431-1.001.35-.559.883-1.164 1.541-1.776A6 6 0 0 1 5 2.804m-2.541 7.499c-.302.324-.536.62-.698.879-.147.235-.213.407-.236.515l-.004.046c.048.022.155.056.37.067.329.016.78-.036 1.343-.165a6 6 0 0 1-.775-1.342m8.429-5.756A4.502 4.502 0 0 0 3.52 8.435l.045.34c.089.504.265 1.004.538 1.475.198.344.435.652.702.921 1.181-.43 2.542-1.062 3.945-1.872s2.63-1.672 3.593-2.48a4.5 4.5 0 0 0-1.31-2.146zm2.987-.36a6 6 0 0 0-1.111.166q.233.306.432.647.196.341.342.695c.394-.423.665-.788.816-1.08.098-.192.121-.303.127-.355q-.016-.009-.041-.019a1.7 1.7 0 0 0-.565-.053" clip-rule="evenodd">
+                    </path>
+                </svg>
+                <svg fill="none" viewBox="0 0 16 16" role="presentation" class="icon hover">
+                    <path [class.icon-open]="open()" fill="currentcolor" d="m14.53 6.03-6 6a.75.75 0 0 1-1.004.052l-.056-.052-6-6 1.06-1.06L8 10.44l5.47-5.47z"></path>
+                    <path
+                    [class.icon-open]="!open()"
+                    fill="currentColor"
+                    d="m6.03 1.47 6 6a.75.75 0 0 1 .052 1.004l-.052.056-6 6-1.06-1.06L10.44 8 4.97 2.53z" />
+                </svg> 
+            </div>
+            <div class="spaces">
+                Spaces
+            </div>
+            <div class="third">
+                <button class="button-icon" (click)="openModel($event)">
+                    <svg fill="none" viewBox="0 0 16 16" role="presentation" class="plus"><path fill="currentcolor" fill-rule="evenodd" d="M7.25 8.75V15h1.5V8.75H15v-1.5H8.75V1h-1.5v6.25H1v1.5z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div class="projects" [class.hidden]="open()">
+            @if(loading()){
+                <p>Loading Projects</p>
+            }@else{
+                <ul>
+                    @for(project of projects();track project.id){
+                        <li class="project" [class.actived]="project.id === selectedProject()?.id" [routerLink]="['/project', project.id]">
+                            <img [src]="getProjectIcon(project.id!)"/>
+                            {{project.name}}
+                            @if(showDelete(project?.ownerId!)){
+                            <button class="button-icon" [class.menu-open]="openMenuProjectId === project.id" (click)="openMenu(project.id!,$event)">
+                                <svg fill="none" viewBox="0 0 16 16" role="presentation" class="dots"><path fill="currentcolor" fill-rule="evenodd" d="M0 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0m6.5 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0M13 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0" clip-rule="evenodd"></path></svg>
+                            </button>
+                            <div class="menu" [class.menuOpen]="openMenuProjectId === project.id">  
+                                <div (click)="deleteProject(project.id!); $event.stopPropagation()">
+                                    <svg fill="none" viewBox="-4 -4 24 24" role="presentation" class="delete"><path fill="currentcolor" fill-rule="evenodd" d="M5 .75A.75.75 0 0 1 5.75 0h4.5a.75.75 0 0 1 .75.75V2.5h3.5V4h-1v10a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V4h-1V2.5H5zM6.5 2.5h3v-1h-3zM4 4v10a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zm1.75 9V5.5h1.5V13zm3 0V5.5h1.5V13z" clip-rule="evenodd"></path></svg>
+                                    Delete
+                                </div>
+                            </div>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    <div class="drag" cdkDrag (cdkDragMoved)="onDragMoved($event)"></div>
+</aside>
+
+<ng-template cdkPortal>
+    <app-create-project></app-create-project>
+</ng-template>

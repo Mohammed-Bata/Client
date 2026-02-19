@@ -1,0 +1,100 @@
+
+<div class="column" cdkDropList [id]="'list-' + column.id" [cdkDropListConnectedTo]="connectedTo" [cdkDropListData]="column.workItems" (cdkDropListDropped)="onWorkItemReorder($event)">
+    <div class="header">
+        <div class="title">
+            <div class="cname">
+                {{column.title}}
+            </div>
+            <div class="count">
+                {{column.workItems.length}}
+            </div>
+        </div>
+        @if(showDelete()){
+            <div class="delete-column">
+                <button (click)="openColumnOptions(column.id)">
+                    <svg fill="none" viewBox="0 0 16 16" role="presentation" class="dots"><path fill="currentcolor" fill-rule="evenodd" d="M0 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0m6.5 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0M13 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0" clip-rule="evenodd"></path></svg>
+                </button>
+                <div class="options">
+                    @if(openMenuColumnId === column.id){
+                        <ul>
+                            <li (click)="deleteColumn(column.id)">Delete</li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    
+    
+    <div class="workitems" >
+        @if(column.workItems){
+                            
+            @for(item of column.workItems;track item.id){
+                <div class="workitem" cdkDrag [cdkDragData]="item" (click)="openWorkItemDetails(item.id)">
+                    <div class="head">
+                        <div class="title">
+                            {{item.title}}
+                        </div>
+                        <button (click)="openOptions(item.id); $event.stopPropagation()">
+                            <svg fill="none" viewBox="0 0 16 16" role="presentation" class="dots"><path fill="currentcolor" fill-rule="evenodd" d="M0 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0m6.5 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0M13 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0" clip-rule="evenodd"></path></svg>
+                        </button>
+                        <div class="options deleteworkitem">
+                            @if(openMenuWorkItemId === item.id){
+                                <ul>
+                                    <li (click)="deleteWorkItem(item.id); $event.stopPropagation()">Delete</li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    @if(item.dueDate){
+                    <div class="date">
+                        <svg fill="none" viewBox="0 0 16 16" role="presentation" class="calendar-icon"><path fill="currentcolor" fill-rule="evenodd" d="M4.5 2.5v2H6v-2h4v2h1.5v-2H13a.5.5 0 0 1 .5.5v3h-11V3a.5.5 0 0 1 .5-.5zm-2 5V13a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V7.5zm9-6.5H13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1.5V0H6v1h4V0h1.5z" clip-rule="evenodd"></path></svg>
+                        {{formatDate(item.dueDate!)}}
+                    </div>
+                    }
+                    <div class="end">
+                        <div class="type">
+                            <img src="../../../../assets/icons/WorkitemTypes/{{types[item.type - 1]}}.svg" />
+                        </div>
+                        <div class="eright">
+                            <div class="priority" >
+                                <img src="../../../../assets/icons/PriorityIcons/{{priorities[item.priority - 1]}}.svg" />
+                            </div>
+                            @if(item.assignedToUserId&&item.assignedToUserName){
+                            <div class="assigned">
+                                <div class="lets" [style.background-color]="item.assignedToUserId! | avatarColor">{{item.assignedToUserName!| initials}}</div>
+                            </div>
+                            }@else{
+                            <div class="unassigned">
+                                <svg fill="none" viewBox="-4 -4 24 24" role="presentation" class="assigned-icon"><path fill="currentcolor" fill-rule="evenodd" d="M8 1.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4 4a4 4 0 1 1 8 0 4 4 0 0 1-8 0m-2 9a3.75 3.75 0 0 1 3.75-3.75h4.5A3.75 3.75 0 0 1 14 13v2h-1.5v-2a2.25 2.25 0 0 0-2.25-2.25h-4.5A2.25 2.25 0 0 0 3.5 13v2H2z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div> 
+            }
+        }
+
+        @if(!create){
+        <button class="create" (click)="opencreate()" >
+            <svg fill="none" viewBox="0 0 16 16" role="presentation" class="plus"><path fill="currentcolor" fill-rule="evenodd" d="M7.25 8.75V15h1.5V8.75H15v-1.5H8.75V1h-1.5v6.25H1v1.5z" clip-rule="evenodd"></path></svg>
+            Create
+        </button>
+        }
+  
+    </div>
+    
+    @if(create){
+        <app-workitem [columnId]="column.id" [projectId]="projectId" (createdworkitem)="onWorkItemCreated($event)">
+
+        </app-workitem>
+    }
+</div>
+
+<ng-template cdkPortal>
+    <app-workitemdetails></app-workitemdetails>
+</ng-template>
+              
+<ng-template cdkPortal>
+    <app-delete-column></app-delete-column>
+</ng-template>

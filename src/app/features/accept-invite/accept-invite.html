@@ -1,0 +1,32 @@
+<div class="invite-wrapper">
+  
+  @if (!isLoggedIn) {
+    <div class="invite-card">
+      <h1>You've been invited!</h1>
+      <p>To join this project and start collaborating with your team, please log in to your account.</p>
+      
+      <button class="accept-btn" 
+            [routerLink]="['/login']" 
+            [queryParams]="{ returnUrl: '/accept?token=' + token }">
+        Log In to Join Project
+      </button>
+      
+      <!-- <p class="small">Don't have an account? <a routerLink="/register">Sign up here</a></p> -->
+    </div>
+  }
+
+  @if (isLoggedIn && !error) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Adding you to the project team...</p>
+    </div>
+  }
+
+  @if (error) {
+    <div class="error-card">
+      <p>{{ error }}</p>
+      <button routerLink="/dashboard">Go to Dashboard</button>
+    </div>
+  }
+
+</div>

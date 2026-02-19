@@ -1,0 +1,73 @@
+<div class="workitem-container">
+    @if(loading()){
+        <p>Loading...</p>
+    }@else{
+        <div class="cross" (click)="close()">
+            <svg fill="none" viewBox="-4 -4 24 24" role="presentation" class="cross-icon"><path fill="currentcolor" d="M14.03 3.03 9.06 8l4.97 4.97-1.06 1.06L8 9.06l-4.97 4.97-1.06-1.06L6.94 8 1.97 3.03l1.06-1.06L8 6.94l4.97-4.97z"></path></svg>
+        </div>
+        <input class="title" [ngModel]="item()?.title" (blur)="updateProperty('title', $any($event.target).value)" (keyup.enter)="$any($event.target).blur()" />
+        <div class="priority">
+            <div class="label">Priority</div>
+            <div class="value" (click)="openPriorityList = !openPriorityList; openTypeList = false" [class.open]="openPriorityList">
+                <img [src]= "'../../../../assets/icons/PriorityIcons/' + getPriorityName(item()?.priority!) + '.svg'" />
+                <span>{{ getPriorityName(item()?.priority!) }}</span>
+            </div>
+            @if(openPriorityList){
+                <div class="priority-list">
+                    @for(option of priorityList; track option.value){
+                        <div class="option" [class.selected]="option.value === item()?.priority!" (click)="selectPriority(option)">
+                            <img src="../../../../assets/icons/PriorityIcons/{{option.label}}.svg" />
+                            {{option.label}}
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="type">
+            <div class="label">Type</div>
+            <div class="value" (click)="openTypeList = !openTypeList; openPriorityList = false" [class.open]="openTypeList">
+                <img [src]= "'../../../../assets/icons/WorkitemTypes/' + getTypeName(item()?.type!) + '.svg'" />
+                <span>{{ getTypeName(item()?.type!) }}</span>
+            </div>
+             @if(openTypeList){
+                <div class="type-list">
+                    @for(option of typeList; track option.value){
+                        <div class="option" [class.selected]="option.value === item()?.type!" (click)="selectType(option)">
+                            <img src="../../../../assets/icons/WorkitemTypes/{{option.label}}.svg" />
+                            {{option.label}}
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="description">
+            <div class="desc">Description</div>
+            <input class="description" [placeholder]="!item()?.description ? 'Add description...' : 'item()?.description'" [ngModel]="item()?.description" (blur)="updateProperty('description', $any($event.target).value)" (keyup.enter)="$any($event.target).blur()" />
+        </div>
+        <div class="assignee">
+            <div class="label">Assignee</div>
+            <div class="value" (click)="toggleAssigned(); openTypeList = false;openPriorityList = false" [class.open]="openAssigneeList">
+                <div class="lets" [style.background-color]="item()?.assignedToUserId | avatarColor">{{item()?.assignedToUserName | initials}}</div>
+                <span>{{item()?.assignedToUserName || 'Un Assigned'}}</span>
+            </div>
+            @if(openAssigneeList){
+                <div class="members-list">
+                    @for(option of teamMembers(); track option.id){
+                        <div class="option" [class.selected]="option.id === item()?.assignedToUserId" (click)="selectAssignee(option.id)">
+                            <div class="letters" [style.background-color]="option.id | avatarColor">{{option?.name | initials}}</div>
+                            <span>{{option.name}}</span>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="Calendar">
+            <div class="label">Due Date</div>
+            <div class="value date" (click)="datepickerOpen = !datepickerOpen">
+                <svg fill="none" viewBox="0 0 16 16" role="presentation" class="calender-icon"><path fill="currentcolor" fill-rule="evenodd" d="M4.5 2.5v2H6v-2h4v2h1.5v-2H13a.5.5 0 0 1 .5.5v3h-11V3a.5.5 0 0 1 .5-.5zm-2 5V13a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V7.5zm9-6.5H13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1.5V0H6v1h4V0h1.5z" clip-rule="evenodd"></path></svg>
+                <div class="date">{{formatDate(item()?.dueDate!)}}</div>
+            </div>
+            <app-calendar [class.hidden]="!datepickerOpen" (daySelected)="onDaySelected($event)" ></app-calendar>
+        </div>
+    }
+</div>

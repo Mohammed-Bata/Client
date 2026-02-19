@@ -1,0 +1,220 @@
+:host {
+  display: block;    /* CRITICAL: Allows the component to have dimensions */
+  width: 100%;      /* Fills the 80% width from TS */
+  height: 100%;     /* Fills the 80% height from TS */
+  background: white;
+  border-radius: 8px;
+  overflow: hidden; /* Keeps scrollbars inside the modal */
+}
+
+
+.workitem-container{
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-bgcolor);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+}
+
+.cross{
+    padding: 6px 0;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    margin-left: auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cross:hover{
+    background-color: #DFE1E6;
+}
+
+.cross-icon{
+   color: var(--gray-text);
+}
+.type, .priority{
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.label{
+    width:50%;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 4px;
+    color:var(--gray-text);
+}
+.label:hover{
+    background-color: var(--border);
+}
+.value{
+    width:50%;
+    display: flex;
+    align-items: center;
+     padding: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    color:var(--primary-text);
+}
+.value:hover{
+    background-color: var(--border);
+}
+.value img{
+    margin-right: 6px;
+}
+
+div.description{
+    margin: 16px 0;
+    font-size:14px;
+}
+
+.desc{
+    color:var(--gray-text);
+    margin-bottom: 6px;
+}
+input.description{
+    color:var(--primary-text);
+}
+
+img{
+    width: 16px;
+    height: 16px;
+}
+
+textarea{
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+input{
+    border: none;
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
+
+.title{
+    font-size: 24px;
+    color:var(--primary-text);
+    font-weight: bold;
+    padding: 6px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.title:hover{
+    background-color: var(--border);
+}
+
+.title:focus{
+    border: 1px solid var(--primary-color);
+    background-color: var(--primary-bgcolor);
+}
+.title:focus:hover{
+    background-color: none;
+}
+
+.type , .priority{
+    position: relative;
+}
+
+.type-list , .priority-list, .members-list{
+    position: absolute;
+    width:50%;
+    right:0;
+    top: 120%;
+    background-color: var(--primary-bgcolor);
+    z-index: 100;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+    padding: 4px 0;
+}
+.value.open{
+    border:1px solid var(--primary-color);
+}
+.value:hover.open{
+    background-color: var(--primary-bgcolor);
+}
+.option{
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.option img{
+    margin-right: 6px;
+}
+.option:hover{
+    background-color:  #0515240F;
+}
+.option:hover::before{
+    content: '';
+    position: absolute;
+    left:0;
+    width:2px;
+    height:100%;
+    background-color: var(--primary-color);
+}
+.option.selected{
+    background-color: #E9F2FE;
+}
+
+.lets{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-bgcolor);
+    font-size: 8px;
+    margin-right: 6px;
+}
+
+.assignee {
+    display: flex;
+    position: relative;
+}
+
+.letters{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-bgcolor);
+    font-size: 8px;
+}
+
+.calender-icon{
+    width:16px;
+    height:16px;
+    margin-right: 4px;
+}
+
+.Calendar{
+    margin-top: 10px;
+    display: flex;
+    position: relative;
+}
+
+app-calendar{
+    position: absolute;
+    bottom: -55px;
+    left:0px;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hidden{
+    display: none;
+}

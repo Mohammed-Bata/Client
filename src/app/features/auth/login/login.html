@@ -1,0 +1,116 @@
+<div class="whitebox">
+    <div class="container">
+        <div class="main">
+            <div class="header">
+                <div class="logo">
+                    <img src="../../../../assets/icons/Jira.svg"/>
+                    <span>JIRA</span>
+                </div>
+
+                <div class="instruction">
+                    {{ page === 'Login' ? 'Login' : 'Sign Up' }} to continue
+                </div>
+            </div>
+            <div>
+                <form [formGroup]="Form" (ngSubmit)="handleForm()">
+                    <div class="one">
+                        @if(page !== 'Login'){
+                        <div class="form-group" [class.hidden]="page === 'Login'">
+                            <label for="name">Name</label>
+                            <div>
+                                <input id="name" name="name" placeholder="Enter your name" formControlName="name" [class.error]="Form.get('name')?.touched && Form.get('name')?.invalid"/>
+                            </div>
+                            @if (Form.get('name')?.touched && Form.get('name')?.invalid) {
+                                <small class="error">
+                                @if (Form.get('name')?.errors?.['required']) {
+                                    <span>Name is required</span>
+                                }
+                                @if (Form.get('name')?.errors?.['minlength']) {
+                                    <span>Name must be at least 3 characters</span>
+                                }
+                                </small>
+                            }
+                        </div>
+                    }
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div>
+                                <input id="email" name="email" placeholder="Enter your email" formControlName="email" [class.error]="Form.get('email')?.touched && Form.get('email')?.invalid"/>
+                            </div>
+                             @if (Form.get('email')?.touched && Form.get('email')?.invalid) {
+                                <small class="error">
+                                @if (Form.get('email')?.errors?.['required']) {
+                                    <span>Email is required</span>
+                                }
+                                @if (Form.get('email')?.errors?.['email']) {
+                                    <span>Enter a valid email</span>
+                                }
+                                </small>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div>
+                                <input id="password" name="password" type="password" placeholder="Enter your password" formControlName="password" [class.error]="Form.get('password')?.touched && Form.get('password')?.invalid"/>
+                            </div>
+                             @if (Form.get('password')?.touched && Form.get('password')?.invalid) {
+                                <small class="error">
+                                @if (Form.get('password')?.errors?.['required']) {
+                                    <span>Password is required</span>
+                                }
+                                @if (Form.get('password')?.errors?.['passwordLower']){
+                                    <span>Password must contain lowercase letter</span>
+                                }
+                                @if(Form.get('password')?.errors?.['passwordUpper']){
+                                    <span>Password must contain uppercase letter</span>
+                                }
+                                @if(Form.get('password')?.errors?.['passwordSpecial']){
+                                    <span>Password must contain special character</span>
+                                }
+                                @if(Form.get('password')?.errors?.['minlength']){
+                                    <span>Password must be atleast 8</span>
+                                }
+                                </small>
+                            }
+                        </div>
+                    </div>
+                    @if (errorMessage) {
+                        <div class="server-error-box">
+                        <i class="icon-warning"></i> <span>{{ errorMessage }}</span>
+                        </div>
+                    }
+                    <div class="two">
+                        <button type="submit">{{ page === 'Login' ? 'Login' : 'Sign Up' }}</button>
+                    </div>
+                </form>
+            </div>
+            <div class="oauth">
+                <p>Or continue with:</p>
+                <ul>
+                    <li>
+                        <button (click)="loginWithGoogle()">
+                            <img src="../../../../assets/icons/google.svg"/>
+                            <span>Google</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button (click)="loginWithMicrosoft()">
+                            <img src="../../../../assets/icons/microsoft.svg"/>
+                            <span>Microsoft</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button (click)="loginWithGitHub()">
+                            <img src="../../../../assets/icons/github.svg" />
+                            <span>Github</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="last" (click)="togglePage()">
+                <a>{{page === 'Login' ? "Can't Login? Create Account" 
+      : 'Already have a Jira account? Log in' }}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="calendar-container" (click)="$event.stopPropagation()">
+    <div class="calendar-header">
+        <span class="premonth" (click)="goToPreviousMonth($event)">&lt;</span>
+        <div class="header-month">{{ firstDayOfActiveMonth().monthLong }} {{ firstDayOfActiveMonth().year }}</div>
+        <span class="nextmonth" (click)="goToNextMonth($event)">&gt;</span>
+    </div>
+    <div class="calendar-body">
+        <div class="weeks">
+            @for(weekDay of weekDays(); track $index){
+                <div class="week">{{ weekDay }}</div>
+            }
+        </div>
+        <div class="days">
+            @for(day of daysOfMonth(); track $index){
+                <div class="day" (click)="selectDay(day)" [class.active]="activeDay() && day.hasSame(activeDay()!, 'day')" [class.outside]="day.month !== firstDayOfActiveMonth().month" [class.today]="day.hasSame(today(), 'day')">{{ day.day }}</div>
+            }
+        </div>
+    </div>
+</div>

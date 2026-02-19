@@ -1,0 +1,115 @@
+<nav>
+    <div class="left">
+        <button class="collapse" (click)="toggleSidebar()">
+            @if(uiservice.sidebarOpen()){
+                <svg fill="none" viewBox="0 0 16 16" role="presentation" class="collapse-icon">
+                    <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5h-2v-11zm-3.5 0v11H2a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5zM16 3a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM8.03 7.47l-2.5-2.5-1.06 1.06L6.44 8 4.47 9.97l1.06 1.06 2.5-2.5a.75.75 0 0 0 0-1.06" clip-rule="evenodd"></path>
+                </svg>
+            }@else{
+                <svg fill="none" viewBox="0 0 16 16" role="presentation" class="collapse-icon">
+                    <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h2v-11zm3.5 0v11H14a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm7.97 4.47 2.5-2.5 1.06 1.06L9.56 8l1.97 1.97-1.06 1.06-2.5-2.5a.75.75 0 0 1 0-1.06" clip-rule="evenodd"></path>
+                </svg>
+            }
+            </button>
+        <div class="logo">
+            <svg viewBox="0 0 24 24" class="jira-icon">
+                <path fill="var(--tile-color,var(--primary-color))" d="M0 6a6 6 0 0 1 6-6h12a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6z"></path>
+                <path fill="var(--icon-color, white)" d="M9.051 15.434H7.734c-1.988 0-3.413-1.218-3.413-3h7.085c.367 0 .605.26.605.63v7.13c-1.772 0-2.96-1.435-2.96-3.434zm3.5-3.543h-1.318c-1.987 0-3.413-1.196-3.413-2.978h7.085c.367 0 .627.239.627.608v7.13c-1.772 0-2.981-1.435-2.981-3.434zm3.52-3.522h-1.317c-1.987 0-3.413-1.217-3.413-3h7.085c.367 0 .605.262.605.61v7.129c-1.771 0-2.96-1.435-2.96-3.434z"></path>
+            </svg>
+            <span>Jira</span>
+        </div>  
+    </div>
+
+    <div class="right">
+        @if(isAuthenticated$ | async){
+            <button class="notification-btn" [class.clicked]="isClicked" (click)="toggle()">
+                <svg fill="none" viewBox="0 0 16 16" role="presentation" class="notification-icon"><path fill="currentcolor" d="M6.42 13.5a1.748 1.748 0 0 0 3.16 0zM4.5 8.636c0 .215-.06.426-.175.608L2.603 12h10.795l-1.723-2.756a1.15 1.15 0 0 1-.175-.608V5a3.5 3.5 0 0 0-7 0zm8.5-.1 1.788 2.86a1.375 1.375 0 0 1-1.166 2.104h-2.46a3.25 3.25 0 0 1-6.324 0h-2.46a1.375 1.375 0 0 1-1.166-2.104L3 8.537V5a5 5 0 0 1 10 0z"></path></svg>
+                @if(notificationservice.unreadCount$ | async; as count){
+                    @if(count > 0){
+                        <span class="count">{{count}}</span>
+                    }
+                }
+            </button>
+            @if(isClicked){
+                <div class="menu">
+                    <div class="top">
+                        <div class="address">Notifications</div>
+                        <!-- <div class="only-unread">only show unread</div> -->
+                    </div>
+                  
+                    @if(notificationservice.notifications$ | async; as list){
+                        <div class="notifications">
+                            @for(n of list;track n.id){
+                                <div class="notification">
+                                    <div class="actor" [style.background-color]="n.actorId | avatarColor">
+                                        @if (n.actorName) {
+                                            {{ n.actorName | initials }}
+                                        } @else {
+                                            <span>--</span> }
+                                    </div>
+                                    <div class="message">{{n.actorName}} {{n.message}}</div>
+                                    <div class="since">{{n.createdAt | timeago}}</div>
+                                </div>
+                            }@empty{
+                                <p>No Notifications yet.</p>
+                            }
+                            <div class="mark" (click)="markAll()">
+                                <svg fill="none" viewBox="-4 -4 24 24" role="presentation" class="mark-icon"><path fill="currentcolor" d="M14.5 8a6.5 6.5 0 1 0-13 0 6.5 6.5 0 0 0 13 0m-2.174-2.52-5 6a.75.75 0 0 1-1.152 0l-2.5-3 1.152-.96L6.75 9.828l4.424-5.308zM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"></path></svg>
+                                Mark all as read</div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+        <div class="avatar" [style.background-color]="user()?.id | avatarColor" (click)="toggleAvatar()">
+            @if (user(); as u) {
+             {{ getUserInitials(u.name) }}
+            } @else {
+                U
+            }
+        </div>
+        @if(isAvatarClicked){
+            <div class="avatar-menu">
+                @if(isAuthenticated$ | async){
+                    <div class="info-screen">
+                        <div class="info-menu">
+                            @if (user(); as u) {
+                                <div class="avatar-initials" [style.background-color]="user()!.id | avatarColor">{{getUserInitials(u.name)}}</div>
+                                <div class="info">
+                                    <div class="name">{{u.name}}</div>
+                                    <div class="email">{{u.email}}</div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                <div class="menu-options">
+                    <div class="option" (click)="openTheme = !openTheme" [class.selected]="openTheme">
+                        @if(openTheme){
+                            <div class="theme-menu">
+                                <div class="theme" [class.selected]="uiservice.currentTheme()==='light'" (click)="setTheme('light')">
+                                    ☀️ <img src="../../../../assets/images/light.svg" /> Light
+                                </div>
+                                <div class="theme" [class.selected]="uiservice.currentTheme()==='dark'" (click)="setTheme('dark')">
+                                    🌙 <img src="../../../../assets/images/dark.svg" /> Dark
+                                </div>
+                            </div>
+                        }
+                        <svg fill="none" viewBox="0 0 16 16" role="presentation" class="option-icon"><path fill="currentcolor" fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.25-5H8a5 5 0 0 1 0 10h-.75z" clip-rule="evenodd"></path></svg>
+                        Themes
+                        <svg fill="none" viewBox="0 0 16 16" role="presentation" class="arrow"><path fill="currentcolor" d="m6.03 1.47 6 6a.75.75 0 0 1 .052 1.004l-.052.056-6 6-1.06-1.06L10.44 8 4.97 2.53z"></path></svg>
+                    </div>
+                    @if(isAuthenticated$ | async){
+                    <div class="option" (click)="logout()">
+                        <svg fill="none" viewBox="0 0 16 16" role="presentation" class="option-icon"><path fill="currentcolor" fill-rule="evenodd" d="M3 2.5h5V1H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5v-1.5H3a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5m11.78 4.97-3.5-3.5-1.06 1.06 2.22 2.22H6v1.5h6.44l-2.22 2.22 1.06 1.06 3.5-3.5a.75.75 0 0 0 0-1.06" clip-rule="evenodd"></path></svg>    
+                        Logout
+                    </div>
+                    }@else{
+                    <div class="option" (click)="gotoLogin()">Login</div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</nav>
+

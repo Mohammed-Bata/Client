@@ -1,0 +1,109 @@
+
+
+:root{
+  --primary-color:#1868DB;
+  --primary-bgcolor:#fff;
+  --secondary-bgcolor:#F8F8F8;
+  --primary-text: #292A2E;
+  --gray-text:#505258;
+  --border:#0B120E24;
+  --bg-hover:#0515240F;
+  --bg-count:#0515240F;
+  --create-btn:#080F214A;
+  --bg-type:#E9F2FE;
+  --bg-day:#E9F2FE;
+}
+
+[data-theme='dark'] {
+  --primary-bgcolor:#1F1F21;
+  --secondary-bgcolor: #18191A;
+  --primary-text: #CECFD2;
+  --gray-text:#A9ABAF;
+  --border:#E3E4F21F;
+  --bg-hover: #1F1F21;
+  --bg-count:#CECED912;
+  --create-btn:#E5E9F640;
+  --bg-type:#CECED912;
+  --bg-day:#1C2B42;
+}
+
+*{
+    box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--primary-bgcolor);
+}
+
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    pointer-events: none; /* Allows the mouse to "see through" the item to the column below */
+}
+
+.cdk-drag-placeholder {
+    opacity: 0.3 !important; /* Shows where the item WILL land */
+}
+
+/* Global Styles for the App Loading Screen */
+.app-loading-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--primary-bgcolor);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+
+  img {
+    width: 120px;
+    margin-bottom: 20px;
+    /* Optional: subtle pulse effect on logo */
+    animation: pulse 2s infinite ease-in-out;
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #0052cc; // Jira Official Blue
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.8; transform: scale(0.95); }
+}
+
+ul {
+  list-style-type:none;
+  margin: 0;
+  padding: 8px 16px;
+  color:var(--gray-text);
+}

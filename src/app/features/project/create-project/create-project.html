@@ -1,0 +1,14 @@
+<form [formGroup]="createProjectForm" (ngSubmit)="handleForm()">
+    <h1>Name Your Space</h1>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" name="name" placeholder="Try a Team Name, Project Goal" formControlName="name">
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Enter your description" formControlName="description"></textarea>
+    </div>
+    <div class="buttons">
+        <button type="submit">Create</button>
+    </div>
+</form>

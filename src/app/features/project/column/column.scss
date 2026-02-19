@@ -1,0 +1,239 @@
+
+
+.column{
+    width: 270px;
+    background-color:var(--secondary-bgcolor);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height:100%;
+    border-radius: 4px;
+}
+
+
+
+.header{
+    height:48px;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--secondary-bgcolor);
+    border-radius: 4px;
+}
+
+.header .title{
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+}
+
+.cname{
+    color:var(--gray-text);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.count{
+    margin-left: 8px;
+    background-color: var(--bg-count);
+    width:24px;
+    height:16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    color:var(--primary-text);
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+
+.workitem{
+    background-color: var(--primary-bgcolor);
+    width:260px;
+    padding: 10px;
+    margin-top: 4px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+}
+.workitem:hover{
+    background-color:var(--bg-hover);
+}
+
+.delete-column{
+    margin-right: 6px;
+    display: flex;
+    align-items: center;
+}
+.delete-column:hover{
+    background-color: var(--bg-hover);
+}
+
+.workitem .head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    
+}
+
+.head .title{
+    color:var(--primary-text);
+    font-size: 14px;
+}
+
+.dots{
+    width:20px;
+    height:20px;
+    padding:4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    color:var(--primary-text);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+.workitem:hover .dots{
+    opacity: 1;
+}
+
+.header:hover .dots {
+    opacity: 1;
+}
+
+.options{
+    position: absolute;
+    top:32px;
+    right:8px;
+    width:120px;
+    background-color: var(--primary-bgcolor);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.deleteworkitem{
+    top:12px !important;
+}
+
+
+.create{
+    width:260px;
+    height:32px;
+    padding: 0 10px;
+    margin:4px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    color:var(--gray-text);
+}
+
+.create:hover{
+    background-color: var(--bg-hover);
+}
+
+.create .plus{
+    color:var(--primary-text);
+}
+
+.column:hover .create{
+    opacity: 1;
+}
+
+
+button{
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0 1px;
+}
+
+.create .plus{
+    width:14px;
+    height:14px;
+    margin-right: 4px;
+}
+
+.calendar-icon{
+    width:16px;
+    height:16px;
+    fill:var(--primary-text);
+    margin-right: 4px;
+}
+.date{
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    width:fit-content;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    color:var(--primary-text);
+    font-size: 14px;
+}
+
+.end{
+    height:28px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+img{
+    width: 16px;
+    height: 16px;
+}
+.assigned{
+    width: 28px;
+    display: flex;
+    justify-content: center;
+}
+.unassigned{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #E0E0E0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.lets{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-bgcolor);
+    font-size: 8px;
+}
+.type{
+    display: flex;
+    align-items: center;
+}
+.priority{
+    display: flex;
+    align-items: center;
+    margin-right: 4px;
+}
+.eright{
+    display: flex;
+}
+.assigned-icon{
+    width:20px;
+    height:20px;
+    fill:#E0E0E0;
+}

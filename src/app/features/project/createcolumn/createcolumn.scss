@@ -1,0 +1,42 @@
+input {
+    padding: 6px 12px;
+    outline: none;
+    background-color: var(--secondary-bgcolor);
+    border:none;
+    color:var(--gray-text);
+}
+
+input:focus{
+    border: 1px solid var(-primary-color);
+}
+
+form{
+    position: relative;
+}
+
+button {
+    position: absolute;
+    top:35px;
+    right:0;
+    width:32px;
+    height:32px;
+    padding: 6px 0;
+    cursor: pointer;
+    background-color: var(--primary-bgcolor);
+    color:var(--gray-text);
+    border: 1px solid var(--bg-type);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button:hover{
+    background-color: var(--bg-hover);
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.check{
+    width:20px;
+    height:20px;
+}

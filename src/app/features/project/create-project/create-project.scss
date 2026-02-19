@@ -1,0 +1,52 @@
+:host{
+    background-color: var(--primary-bgcolor);
+    width:100%;
+    padding: 15px;
+}
+
+h1{
+    color:var(--primary-text);
+}
+
+label{
+    color:var(--gray-text);
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+textarea,input{
+    padding: 8px 6px;
+    border-color: var(--border);
+    background-color: var(--primary-bgcolor);
+}
+
+input:focus,textarea:focus{
+    border:1px solid #669DF1 !important;
+    outline: none;
+}
+
+textarea{
+    resize: none;
+}
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+
+button{
+    appearance: none;
+    border: none;
+    background: none;
+    padding: 6px 12px;
+    background-color:#669DF1;
+    color:var(--primary-text);
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
