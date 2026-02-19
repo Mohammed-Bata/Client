@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
-    apiUrl:'https://localhost:7144/api'
+    production: true,
+    apiUrl:'https://jira-clone.runasp.net/api'
 }
