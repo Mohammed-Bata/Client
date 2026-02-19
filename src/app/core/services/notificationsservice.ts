@@ -54,7 +54,7 @@ export class NotificationsService{
 
     startConnection(token:string){
         this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl('https://localhost:7144/notifications',{
+        .withUrl('https://jira-clone.runasp.net/notifications',{
             accessTokenFactory:()=>token 
         })
         .withAutomaticReconnect()
