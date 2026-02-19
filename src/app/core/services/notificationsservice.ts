@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment.development";
+import { environment } from "../../../environments/environment.prod";
 import { BehaviorSubject, tap } from "rxjs";
 import { NotificationDto, UnreadCount } from "../models/Notification";
 import { API_ENDPOINTS } from "../constants/api-endpoints";

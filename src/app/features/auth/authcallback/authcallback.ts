@@ -3,7 +3,7 @@ import { API_ENDPOINTS } from '../../../core/constants/api-endpoints';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../../core/models/User';
 import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment.prod';
 import { TokenService } from '../../../core/services/tokenservice';
 import { AuthService } from '../../../core/services/authservice';
 

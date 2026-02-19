@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { environment } from "../../../environments/environment.development";
+import { environment } from "../../../environments/environment.prod";
 import { HttpClient } from "@angular/common/http";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
 import { CreateProjectDto, ProjectDto, GetProjectsDto } from "../models/Project";
