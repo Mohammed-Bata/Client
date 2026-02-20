@@ -28,6 +28,7 @@ export class Navbar {
   constructor(private router:Router,private authservice:AuthService,public notificationservice:NotificationsService,private tokenservice:TokenService,public uiservice:UIService){
     this.isAuthenticated$ = this.authservice.isAuthenticated$;
     this.user = this.tokenservice.user;
+    this.notificationservice.getUnreadCount();
   }
 
   @HostListener('document:click', ['$event'])

@@ -64,7 +64,7 @@ export class NotificationsService{
         .then(() => console.log('SignalR: Connected with JWT via Query String'))
         .catch(err => console.error('SignalR Connection Error: ', err));
 
-        this.getUnreadCount();
+        // this.getUnreadCount();
 
         this.hubConnection.on('ReceiveNotification', (notification: any) => {
 
