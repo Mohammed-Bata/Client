@@ -105,9 +105,13 @@ export class NotificationsService{
     }
 
     leaveProjectGroup(projectId:string){
-        if (this.hubConnection?.state === signalR.HubConnectionState.Connected) {
-            this.hubConnection.invoke('LeaveProject', projectId)
-            .catch(err => console.error('Leave Group Error:', err));
-        }
+       this.connectionState$.pipe(
+        filter(connected => connected),
+        take(1),
+        switchMap(()=>from(this.hubConnection.invoke('LeaveProject',projectId)))
+       ).subscribe({
+        next:() => console.log(`Leave group: Project_${projectId}`),
+        error:(err)=> console.error('Leave Group Error:',err)
+       })
     }
 }
