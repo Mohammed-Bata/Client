@@ -33,7 +33,10 @@ export class Invitation {
     }
 
     this.teamservice.inviteMember(dto).subscribe({
-      next:() =>this.overlayRef?.detach(),
+      next:() =>{
+        this.overlayRef?.detach();
+        this.invitationForm.reset();
+      },
       error:(err)=>console.log(err.message)
     })
 

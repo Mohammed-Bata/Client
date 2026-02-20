@@ -111,6 +111,7 @@ onEscapePressed() {
       height: isMobile ? '100vh':'80%',
       hasBackdrop: true,
     });
+    const overlayRef = this.overlay.create(config);
 
     this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
     if (result.matches) {
@@ -120,7 +121,6 @@ onEscapePressed() {
     }
   });
 
-    const overlayRef = this.overlay.create(config);
 
     const customInjector = Injector.create({
     parent: this.injector,
@@ -134,7 +134,6 @@ onEscapePressed() {
     const componentPortal = new ComponentPortal(Workitemdetails, null, customInjector);
     overlayRef.attach(componentPortal);
 
-    //overlayRef.attach(this.portal);
     overlayRef.backdropClick().subscribe(()=> overlayRef.detach());
   }
 
@@ -170,6 +169,8 @@ formatDate(dateString: string): string {
       hasBackdrop: true,
     });
 
+    const overlayRef = this.overlay.create(config);
+
     this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
     if (result.matches) {
       overlayRef.updateSize({ width: '100vw', height: '50vh' });
@@ -178,7 +179,6 @@ formatDate(dateString: string): string {
     }
     });
 
-    const overlayRef = this.overlay.create(config);
 
     const deleteNotifier$ = new Subject<number>();
 

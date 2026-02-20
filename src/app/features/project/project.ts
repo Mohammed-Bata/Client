@@ -92,6 +92,8 @@ export class Project implements OnInit, OnDestroy
       hasBackdrop: true
     });
 
+    const overlayRef = this.overlay.create(config);
+
     this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
     if (result.matches) {
       overlayRef.updateSize({ width: '100vw', height: '50vh' });
@@ -99,8 +101,6 @@ export class Project implements OnInit, OnDestroy
       overlayRef.updateSize({ width: '50%', height: '50%' });
     }
   });
-
-    const overlayRef = this.overlay.create(config);
 
     const customInjector = Injector.create({
     parent: this.injector,
@@ -112,8 +112,6 @@ export class Project implements OnInit, OnDestroy
     const componentPortal = new ComponentPortal(Invitation, null, customInjector);
     overlayRef.attach(componentPortal);
     
-
-
     overlayRef.backdropClick().subscribe(()=> overlayRef.detach());
   }
 

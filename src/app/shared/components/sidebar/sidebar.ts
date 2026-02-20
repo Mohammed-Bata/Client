@@ -56,6 +56,8 @@ export class Sidebar implements OnInit {
       hasBackdrop: true
     });
 
+    const overlayRef = this.overlay.create(config);
+
     this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
     if (result.matches) {
       overlayRef.updateSize({ width: '100vw', height: '60vh' });
@@ -63,7 +65,6 @@ export class Sidebar implements OnInit {
       overlayRef.updateSize({ width: '60%', height: '50%' });
     }});
 
-    const overlayRef = this.overlay.create(config);
 
     const customInjector = Injector.create({
     parent: this.injector,
