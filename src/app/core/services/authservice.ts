@@ -77,6 +77,7 @@ export class AuthService{
         next: () => {
           this.tokenservice.clearToken();
           this.isAuthenticatedSubject.next(false);
+          this.notificationservice.stopConnection();
           console.log('✅ Logout successful');
           this.router.navigate(['/login']);
         },

@@ -54,6 +54,19 @@ export class NotificationsService{
         })
     }
 
+    stopConnection(){
+        if(this.hubConnection){
+            from(this.hubConnection.stop()).subscribe({
+            next: () => {
+                console.log('SignalR: Disconnected');
+                this.connectionState$.next(false);
+                this.hubConnection = null!;
+            },
+            error: (err) => console.error('SignalR Disconnect Error:', err)
+        });
+        }
+    }
+
     startConnection(token:string){
         this.hubConnection = new signalR.HubConnectionBuilder()
         .withUrl('https://jira-clone.runasp.net/notifications',{
