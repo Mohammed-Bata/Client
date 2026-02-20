@@ -31,7 +31,7 @@ export class Invitation {
       email:this.invitationForm.value.email,
       projectid:this.projectId
     }
-
+    console.log(this.projectId);
     this.teamservice.inviteMember(dto).subscribe({
       next:() =>{
         this.overlayRef?.detach();
