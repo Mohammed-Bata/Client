@@ -98,8 +98,7 @@ getWorkItemIcon(optionValue: number) {
       this.teamService.getTeamMembers(this.projectId).subscribe({
         next:(response)=>{
           this.teamMembers.set(response);
-          console.log("fetched team members:");
-          console.log(response);
+          
         },
         error:(error)=>console.log(error)
       });

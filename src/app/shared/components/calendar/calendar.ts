@@ -26,7 +26,7 @@ export class Calendar {
   });
 
   constructor() {
-    console.log(this.firstDayOfActiveMonth());
+    
   }
 
   goToPreviousMonth(event: MouseEvent) {

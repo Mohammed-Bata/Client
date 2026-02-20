@@ -89,21 +89,15 @@ export class Login {
   loginWithGoogle(){
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || null;
 
-    console.log('logincomponent',returnUrl);
-
     this.authservice.loginWithGoogle(returnUrl);
   }
   loginWithMicrosoft(){
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || null;
 
-    console.log('logincomponent',returnUrl);
-
     this.authservice.loginWithMicrosoft(returnUrl);
   }
   loginWithGitHub(){
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || null;
-
-    console.log('logincomponent',returnUrl);
 
     this.authservice.loginWithGitHub(returnUrl);
   }

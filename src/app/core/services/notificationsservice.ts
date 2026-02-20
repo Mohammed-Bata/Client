@@ -44,7 +44,6 @@ export class NotificationsService{
         if(this.notificationsSubject.value.length > 0){
             return;
         }
-        console.log('getting');
         this.http.get<NotificationDto[]>(`${this.apiUrl}${API_ENDPOINTS.Notification.GETALL}`,{params:{
             Status:'all'
         },withCredentials:true}).subscribe({

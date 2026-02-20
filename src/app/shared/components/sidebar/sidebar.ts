@@ -89,7 +89,6 @@ export class Sidebar implements OnInit {
 
   toggle() {
     this.open.update(v => !v);
-    console.log(this.open());
   }
 
   getProjectIcon(projectId:number):string{

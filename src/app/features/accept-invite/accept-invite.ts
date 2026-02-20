@@ -21,11 +21,8 @@ export class AcceptInvite implements OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
       this.token = params.get('token');
-      console.log('Token from Observable:', this.token);
     });
     
-
-    console.log("Token initialized in Accept Component:", this.token);
 
     this.isLoggedIn = this.authservice.isAuthenticated;
 
@@ -47,7 +44,6 @@ export class AcceptInvite implements OnInit {
 
       this.teamservice.acceptInvite(dto).subscribe({
         next:(response)=>{
-          console.log(response.message);
           this.loading = false;
           this.router.navigate(['/']);
         },

@@ -258,7 +258,6 @@ formatDate(dateString: string): string {
 
     this.workitemService.reorderWorkItem(reorderDto).subscribe({
       next:(response)=>{
-        console.log('Reorder successful:', response);
         event.item.data.order = response.order;
       },
       error:(error)=>{

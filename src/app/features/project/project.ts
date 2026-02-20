@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnDestroy, OnInit, signal, Signal, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Injector, OnDestroy, OnInit, signal, Signal, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../core/services/projectservice';
 import { ProjectColumnDto, ProjectDto, WorkItemPatchEvent } from '../../core/models/Project';
@@ -7,8 +7,8 @@ import { Column } from './column/column';
 import { Createcolumn } from './createcolumn/createcolumn';
 import { CdkDrag, CdkDragDrop, CdkDropList, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ColumnService } from '../../core/services/columnservice';
-import { CdkPortal, PortalModule } from '@angular/cdk/portal';
-import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
+import { CdkPortal, ComponentPortal, PortalModule } from '@angular/cdk/portal';
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { Invitation } from './invitation/invitation';
 import { switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -30,7 +30,7 @@ export class Project implements OnInit, OnDestroy
   @ViewChild(CdkPortal) portal!: CdkPortal;
   create : boolean = false;
 
-  constructor(private route:ActivatedRoute,private projectservice:ProjectService,private columnService:ColumnService,private overlay : Overlay, private notificationservice:NotificationsService,private destroyRef: DestroyRef,private breakpointObserver: BreakpointObserver){
+  constructor(private route:ActivatedRoute,private injector: Injector,private projectservice:ProjectService,private columnService:ColumnService,private overlay : Overlay, private notificationservice:NotificationsService,private destroyRef: DestroyRef,private breakpointObserver: BreakpointObserver){
     this.project = this.projectservice.project;
     this.loading = this.projectservice.loading;
 
@@ -100,10 +100,20 @@ export class Project implements OnInit, OnDestroy
     }
   });
 
-
-
     const overlayRef = this.overlay.create(config);
-    overlayRef.attach(this.portal);
+
+    const customInjector = Injector.create({
+    parent: this.injector,
+    providers: [
+      { provide: OverlayRef, useValue: overlayRef }
+    ]
+    
+    });
+    const componentPortal = new ComponentPortal(Invitation, null, customInjector);
+    overlayRef.attach(componentPortal);
+    
+
+
     overlayRef.backdropClick().subscribe(()=> overlayRef.detach());
   }
 
@@ -131,7 +141,6 @@ handlecolumndelete(columnId:number){
 
     this.columnService.reorder(reorderDto).subscribe({
       next:(response)=>{
-        console.log('Reorder successful:', response);
         movedItem!.order = response.Order;
       },
       error:(error)=>{

@@ -39,8 +39,6 @@ export class Authcallback implements OnInit {
 
   const destination = localStorage.getItem('returnUrl') || null;
 
-  console.log("oauthcallback",localStorage.getItem('returnUrl'));
-
   if(destination !== null){
 
     localStorage.removeItem('returnUrl'); 

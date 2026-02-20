@@ -64,7 +64,7 @@ export class AuthService{
   }
 
  logout(): void {
-    console.log('🚪 Logging out...');
+   
     this.http
       .post(
         `${this.apiUrl}${API_ENDPOINTS.AUTH.LOGOUT}`,
@@ -93,7 +93,7 @@ export class AuthService{
 
       if(returnUrl !== null){
         localStorage.setItem('returnUrl',returnUrl);
-        console.log("authserviceloginbygoogle",localStorage.getItem('returnUrl'));
+       
       }
 
       window.location.href = `${this.apiUrl}/Users/google/login`;
@@ -128,8 +128,7 @@ export class AuthService{
 
       if(returnUrl !== null){
         localStorage.setItem('returnUrl',returnUrl);
-        console.log("authserviceloginbygoogle",localStorage.getItem('returnUrl'));
-      }
+         }
 
       window.location.href = `${this.apiUrl}/Users/microsoft/login`;
     }
@@ -139,8 +138,7 @@ export class AuthService{
 
       if(returnUrl !== null){
         localStorage.setItem('returnUrl',returnUrl);
-        console.log("authserviceloginbygoogle",localStorage.getItem('returnUrl'));
-      }
+        }
 
       window.location.href = `${this.apiUrl}/Users/github/login`
     }

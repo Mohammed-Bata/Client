@@ -98,13 +98,10 @@ export class Workitemdetails implements OnInit {
       this.teamService.getTeamMembers(this.projectId).subscribe({
         next:(response)=>{
           this.teamMembers.set(response);
-          console.log("fetched team members:");
-          console.log(response);
         },
         error:(error)=>console.log(error)
       });
     }
-    console.log(this.openAssigneeList);
     this.openAssigneeList = !this.openAssigneeList;
   }
 
@@ -134,7 +131,6 @@ export class Workitemdetails implements OnInit {
         if (success) {
           // Update the local signal so the UI stays in sync
           this.item.update(current => ({ ...current, [propertyName]: value }as WorkItemDto));
-          console.log(`${propertyName} updated successfully!`);
 
           const cardFields: string[] = ['title', 'priority', 'type', 'dueDate', 'assignedToUserId', 'assignedToUserName'];
           if(cardFields.includes(propertyName)){
