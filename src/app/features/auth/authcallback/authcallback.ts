@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment.development'
 import { TokenService } from '../../../core/services/tokenservice';
 import { AuthService } from '../../../core/services/authservice';
+import { NotificationsService } from '../../../core/services/notificationsservice';
 
 @Component({
   selector: 'app-authcallback',
@@ -16,7 +17,7 @@ import { AuthService } from '../../../core/services/authservice';
 export class Authcallback implements OnInit {
  
 
-  constructor(private router:Router ,private tokenservice: TokenService,private authservice:AuthService
+  constructor(private router:Router ,private tokenservice: TokenService,private authservice:AuthService,private notificationservice:NotificationsService
    ){
   }
 
@@ -29,7 +30,8 @@ export class Authcallback implements OnInit {
       this.tokenservice.setToken(token);
       this.authservice.setAuthenticated(true);
 
-      console.log('token found');
+      this.notificationservice.startConnection(token);
+
     }
 
     // 5. Clean URL to remove token from fragment
