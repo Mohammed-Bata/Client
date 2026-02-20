@@ -37,15 +37,23 @@ export class Project implements OnInit, OnDestroy
   }
 
   ngOnInit(): void {
+
+    let previousId: string | null = null;
+
      this.route.paramMap.pipe(
       switchMap(params => {
-        const id = Number(params.get('id'));
-        
-        if(id){
-          this.notificationservice.joinProjectGroup(id.toString());
+        const id = params.get('id');
+
+        if (previousId && previousId !== id) {
+        this.notificationservice.leaveProjectGroup(previousId);
         }
         
-        return this.projectservice.getProject(id);
+        if(id){
+          this.notificationservice.joinProjectGroup(id);
+          previousId = id;
+        }
+        
+        return this.projectservice.getProject(Number(id));
       }),
       takeUntilDestroyed(this.destroyRef) 
     ).subscribe();

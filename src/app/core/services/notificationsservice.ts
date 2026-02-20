@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment.development";
-import { BehaviorSubject, tap } from "rxjs";
+import { BehaviorSubject, filter, from, switchMap, take, tap } from "rxjs";
 import { NotificationDto, UnreadCount } from "../models/Notification";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
 import * as signalR from '@microsoft/signalr';
@@ -21,6 +21,8 @@ export class NotificationsService{
 
     private unreadCountSubject = new BehaviorSubject<number>(0);
     public unreadCount$ = this.unreadCountSubject.asObservable();
+
+    private connectionState$ = new BehaviorSubject<boolean>(false);
 
     constructor(private http:HttpClient,private tokenservice:TokenService){}
 
@@ -60,11 +62,19 @@ export class NotificationsService{
         .withAutomaticReconnect()
         .build();
 
-        this.hubConnection.start()
-        .then(() => console.log('SignalR: Connected with JWT via Query String'))
-        .catch(err => console.error('SignalR Connection Error: ', err));
+        // this.hubConnection.start()
+        // .then(() => console.log('SignalR: Connected with JWT via Query String'))
+        // .catch(err => console.error('SignalR Connection Error: ', err));
 
         // this.getUnreadCount();
+
+        from(this.hubConnection.start()).subscribe({
+        next: () => {
+            console.log('SignalR: Connected');
+            this.connectionState$.next(true);
+        },
+        error: (err) => console.error('SignalR Connection Error:', err)
+        });
 
         this.hubConnection.on('ReceiveNotification', (notification: any) => {
 
@@ -84,11 +94,14 @@ export class NotificationsService{
     }
 
     joinProjectGroup(projectId:string){
-        if(this.hubConnection?.state === signalR.HubConnectionState.Connected){
-            this.hubConnection.invoke('JoinProject', projectId)
-            .then(() => console.log(`Joined group: Project_${projectId}`))
-            .catch(err => console.error('Join Group Error:', err));
-        }
+        this.connectionState$.pipe(
+            filter(connected => connected),  // wait until true
+        take(1),                         // only once
+        switchMap(() => from(this.hubConnection.invoke('JoinProject', projectId)))
+        ).subscribe({
+            next:() => console.log(`Joined group: Project_${projectId}`),
+            error: (err) => console.error('Join Group Error:', err)
+        })
     }
 
     leaveProjectGroup(projectId:string){
