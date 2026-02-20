@@ -1,7 +1,7 @@
 import { CdkDragMove, DragDropModule } from '@angular/cdk/drag-drop';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { CdkPortal, PortalModule } from '@angular/cdk/portal';
-import { Component, HostListener, OnInit, Signal, signal, ViewChild } from '@angular/core';
+import { CdkPortal, ComponentPortal, PortalModule } from '@angular/cdk/portal';
+import { Component, HostListener, Injector, OnInit, Signal, signal, ViewChild } from '@angular/core';
 import { CreateProject } from '../../../features/project/create-project/create-project';
 import { ProjectService } from '../../../core/services/projectservice';
 import { GetProjectsDto, ProjectDto } from '../../../core/models/Project';
@@ -26,10 +26,9 @@ export class Sidebar implements OnInit {
   selectedProject!: Signal<ProjectDto | null>;
   Menu = false;
   openMenuProjectId: number | null = null;
-  private overlayRef?: OverlayRef;
 
 
-  constructor(private overlay : Overlay,private projectservice:ProjectService,private tokenservice:TokenService,private router:Router,private breakpointObserver: BreakpointObserver){
+  constructor(private overlay : Overlay,private injector: Injector,private projectservice:ProjectService,private tokenservice:TokenService,private router:Router,private breakpointObserver: BreakpointObserver){
     this.selectedProject = this.projectservice.project;
     this.projects = this.projectservice.projects;
   }
@@ -56,18 +55,27 @@ export class Sidebar implements OnInit {
       height:isMobile ? '60vh':'50%',
       hasBackdrop: true
     });
-    this.overlayRef = this.overlay.create(config);
 
     this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
     if (result.matches) {
-      this.overlayRef?.updateSize({ width: '100vw', height: '60vh' });
+      overlayRef.updateSize({ width: '100vw', height: '60vh' });
     } else {
-      this.overlayRef?.updateSize({ width: '60%', height: '50%' });
+      overlayRef.updateSize({ width: '60%', height: '50%' });
     }});
 
-    this.overlayRef.attach(this.portal);
-    this.overlayRef.backdropClick().subscribe(()=> this.overlayRef?.detach());
+    const overlayRef = this.overlay.create(config);
 
+    const customInjector = Injector.create({
+    parent: this.injector,
+    providers: [
+      { provide: OverlayRef, useValue: overlayRef }
+    ]
+    
+    });
+    const componentPortal = new ComponentPortal(CreateProject, null, customInjector);
+    overlayRef.attach(componentPortal);
+
+    overlayRef.backdropClick().subscribe(()=> overlayRef.detach());
   }
 
   protected onDragMoved(event : CdkDragMove){

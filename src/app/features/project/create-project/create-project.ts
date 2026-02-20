@@ -12,10 +12,9 @@ import { OverlayRef } from '@angular/cdk/overlay';
   styleUrl: './create-project.scss',
 })
 export class CreateProject {
-  @Input() overlayRef?: OverlayRef;
   createProjectForm:FormGroup;
 
-  constructor(private fb:FormBuilder,private projectservice:ProjectService){
+  constructor(private fb:FormBuilder,private projectservice:ProjectService,private overlayRef: OverlayRef){
     this.createProjectForm = this.fb.group({
       name:['',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
       description:['',[Validators.required,Validators.minLength(5),Validators.maxLength(500)]]
