@@ -14,9 +14,8 @@ import { OverlayRef } from '@angular/cdk/overlay';
 export class CreateProject {
 
   createProjectForm:FormGroup;
-  private overlayRef?: OverlayRef;
 
-  constructor(private fb:FormBuilder,private projectservice:ProjectService,private tokenservice:TokenService){
+  constructor(private fb:FormBuilder,private projectservice:ProjectService,private overlayRef?: OverlayRef){
     this.createProjectForm = this.fb.group({
       name:['',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
       description:['',[Validators.required,Validators.minLength(5),Validators.maxLength(500)]]
@@ -37,7 +36,10 @@ export class CreateProject {
 
 
     this.projectservice.createProject(dto).subscribe({
-      next:(value)=>this.overlayRef?.detach(),
+      next:(value)=>{
+        this.overlayRef?.detach();
+        this.createProjectForm.reset();
+      },
       error:(err)=>console.log(err.message)
     });
 

@@ -1,5 +1,5 @@
 import { CdkDragMove, DragDropModule } from '@angular/cdk/drag-drop';
-import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { CdkPortal, PortalModule } from '@angular/cdk/portal';
 import { Component, HostListener, OnInit, Signal, signal, ViewChild } from '@angular/core';
 import { CreateProject } from '../../../features/project/create-project/create-project';
@@ -26,6 +26,7 @@ export class Sidebar implements OnInit {
   selectedProject!: Signal<ProjectDto | null>;
   Menu = false;
   openMenuProjectId: number | null = null;
+  private overlayRef?: OverlayRef;
 
 
   constructor(private overlay : Overlay,private projectservice:ProjectService,private tokenservice:TokenService,private router:Router,private breakpointObserver: BreakpointObserver){
@@ -55,17 +56,17 @@ export class Sidebar implements OnInit {
       height:isMobile ? '60vh':'50%',
       hasBackdrop: true
     });
+    this.overlayRef = this.overlay.create(config);
 
     this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
     if (result.matches) {
-      overlayRef.updateSize({ width: '100vw', height: '60vh' });
+      this.overlayRef?.updateSize({ width: '100vw', height: '60vh' });
     } else {
-      overlayRef.updateSize({ width: '60%', height: '50%' });
+      this.overlayRef?.updateSize({ width: '60%', height: '50%' });
     }});
 
-    const overlayRef = this.overlay.create(config);
-    overlayRef.attach(this.portal);
-    overlayRef.backdropClick().subscribe(()=> overlayRef.detach());
+    this.overlayRef.attach(this.portal);
+    this.overlayRef.backdropClick().subscribe(()=> this.overlayRef?.detach());
   }
 
   protected onDragMoved(event : CdkDragMove){
