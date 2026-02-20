@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { ProjectService } from '../../../core/services/projectservice';
 import { TokenService } from '../../../core/services/tokenservice';
@@ -12,10 +12,10 @@ import { OverlayRef } from '@angular/cdk/overlay';
   styleUrl: './create-project.scss',
 })
 export class CreateProject {
-
+  @Input() overlayRef?: OverlayRef;
   createProjectForm:FormGroup;
 
-  constructor(private fb:FormBuilder,private projectservice:ProjectService,private overlayRef?: OverlayRef){
+  constructor(private fb:FormBuilder,private projectservice:ProjectService){
     this.createProjectForm = this.fb.group({
       name:['',[Validators.required,Validators.minLength(3),Validators.maxLength(50)]],
       description:['',[Validators.required,Validators.minLength(5),Validators.maxLength(500)]]

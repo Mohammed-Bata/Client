@@ -67,6 +67,7 @@ export class Sidebar implements OnInit {
 
     this.overlayRef.attach(this.portal);
     this.overlayRef.backdropClick().subscribe(()=> this.overlayRef?.detach());
+
   }
 
   protected onDragMoved(event : CdkDragMove){
