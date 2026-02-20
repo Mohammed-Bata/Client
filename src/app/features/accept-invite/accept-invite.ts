@@ -48,6 +48,7 @@ export class AcceptInvite implements OnInit {
       this.teamservice.acceptInvite(dto).subscribe({
         next:(response)=>{
           console.log(response.message);
+          this.loading = false;
         },
         error:(err)=> {this.loading = false; console.log(err);this.error = "invitation error"}
       })
