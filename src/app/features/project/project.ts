@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Injector, OnDestroy, OnInit, signal, Signal, ViewChild } from '@angular/core';
+import { Component, DestroyRef, InjectionToken, Injector, OnDestroy, OnInit, signal, Signal, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../core/services/projectservice';
 import { ProjectColumnDto, ProjectDto, WorkItemPatchEvent } from '../../core/models/Project';
@@ -16,6 +16,8 @@ import { icons } from '../../shared/icons/icons';
 import { workitemservice } from '../../core/services/workitemservice';
 import { NotificationsService } from '../../core/services/notificationsservice';
 import { BreakpointObserver } from '@angular/cdk/layout';
+
+export const PROJECT_ID = new InjectionToken<number>('PROJECT_ID');
 
 @Component({
   selector: 'app-project',
@@ -91,9 +93,7 @@ export class Project implements OnInit, OnDestroy
        height:isMobile ? '50vh':'50%',
       hasBackdrop: true
     });
-
-    console.log('projectId',this.project()!.id)
-
+    
     const overlayRef = this.overlay.create(config);
 
     this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
@@ -107,6 +107,7 @@ export class Project implements OnInit, OnDestroy
     const customInjector = Injector.create({
     parent: this.injector,
     providers: [
+      {provide:PROJECT_ID, useValue: this.project()!.id},
       { provide: OverlayRef, useValue: overlayRef }
     ]
     

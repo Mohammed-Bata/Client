@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TeamService } from '../../../core/services/teamservice';
 import { InvitationDto } from '../../../core/models/Team';
 import { OverlayRef } from '@angular/cdk/overlay';
+import { PROJECT_ID } from '../project';
 
 @Component({
   selector: 'app-invitation',
@@ -13,9 +14,8 @@ import { OverlayRef } from '@angular/cdk/overlay';
 export class Invitation {
 
   invitationForm : FormGroup;
-  @Input() projectId! : number;
 
-  constructor(private fb:FormBuilder,private teamservice:TeamService,private overlayRef: OverlayRef){
+  constructor(private fb:FormBuilder,@Inject(PROJECT_ID) private projectId:number,private teamservice:TeamService,private overlayRef: OverlayRef){
     this.invitationForm = this.fb.group({
       email: ['',[Validators.required, Validators.email]]
     });
@@ -31,7 +31,7 @@ export class Invitation {
       email:this.invitationForm.value.email,
       projectid:this.projectId
     }
-    console.log('projectId',this.projectId);
+    
     this.teamservice.inviteMember(dto).subscribe({
       next:() =>{
         this.overlayRef?.detach();
