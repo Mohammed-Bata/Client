@@ -92,6 +92,8 @@ export class Project implements OnInit, OnDestroy
       hasBackdrop: true
     });
 
+    console.log('projectId',this.project()!.id)
+
     const overlayRef = this.overlay.create(config);
 
     this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
